@@ -47,6 +47,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../include/players.h"
+
 /** Constantes para as strings a serem lidas */
 #define MAX_LINE 100
 #define MAX_ACTION 10
@@ -96,10 +98,11 @@ int main() {
   // Será necessário separar os identificadores para saber quem são, quantos bots estão
   // jogando e qual a ordem inicial de jogada deles.
   scanf("PLAYERS %[^\n]\n", temp);
-
-  // Caso queira imprimir uma mensagem para debugar, pode chamar 'debug()' passando uma string.
-  // Por exemplo: debug(temp);
-  debug(temp);
+  addPlayers(temp);
+  
+  for (int i = 0; i < qtPlayers; i++) {
+    debug(players[i]);
+  }
 
   // Lê o identificador do próprio bot. Isso é importante para testar quando é sua vez.
   scanf("YOU %s\n", my_id);
