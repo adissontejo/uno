@@ -48,6 +48,7 @@
 #include <string.h>
 
 #include "../include/players.h"
+#include "../include/cards.h"
 
 /** Constantes para as strings a serem lidas */
 #define MAX_LINE 100
