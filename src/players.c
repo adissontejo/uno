@@ -7,7 +7,11 @@
 int qtPlayers;
 char** players;
 
-void addPlayers(char* playerList) {
+void readPlayers() {
+  char* playerList;
+
+  scanf("PLAYERS %m[^\n]\n", &playerList);
+
   char* player; 
 
   qtPlayers = 0;

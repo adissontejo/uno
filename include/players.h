@@ -3,6 +3,6 @@
 extern int qtPlayers;
 extern char** players;
 
-extern void addPlayers(char* playerList);
+extern void readPlayers();
 
 #endif

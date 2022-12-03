@@ -97,11 +97,10 @@ int main() {
   // Lê uma linha até o '\n' com os identificadores dos jogadores.
   // Será necessário separar os identificadores para saber quem são, quantos bots estão
   // jogando e qual a ordem inicial de jogada deles.
-  scanf("PLAYERS %[^\n]\n", temp);
-  addPlayers(temp);
+  readPlayers();
   
   for (int i = 0; i < qtPlayers; i++) {
-    debug(players[i]);
+    printf("SAY %s\n", players[i]);
   }
 
   // Lê o identificador do próprio bot. Isso é importante para testar quando é sua vez.
@@ -171,7 +170,6 @@ int main() {
     } while (strcmp(action, "TURN") || strcmp(complement, my_id));
     
     // agora é a vez do seu bot jogar
-    debug("----- MINHA VEZ -----");
     
     /*
     Seu bot realiza uma ação no jogo enviando para a saída-padrão uma string no formato:
