@@ -158,7 +158,7 @@ int main() {
       eliminado da partida.
       */
 
-      scanf("%s %s", action, complement);
+      scanf("%s %[^\n]", action, complement);
       // obs: um segundo scanf pode ser realizado par ler o 2º complemento.
 
       /*      
