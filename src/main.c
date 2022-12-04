@@ -123,6 +123,8 @@ int main() {
   char action[MAX_ACTION];
   char complement[MAX_LINE];
 
+  int qtBuy = 0;
+
   /*
   O `while(1) faz o bot entra num laço infinito, mas não se preocupe. O simulador do jogo irá
   "matar" o seu programa quando o jogo terminar.
@@ -135,40 +137,24 @@ int main() {
   while(1) {
     // A primeira coisa fazer é "esperar sua vez".
     // É preciso, então, de um laço enquanto a vez do seu bot não chega.
-    do {
-      /*
-      Enquanto não chega a vez do seu bot, ele estará "escutando" todos os eventos
-      do jogo. Estes eventos são repassados para todos os bots em uma linha no formato:
-        <ação> <complemento1> [complemento2]
-      
-      Ou seja, <ação> <complemento1> estão sempre presentes na mensagem do evento, porém
-      a presença de [complemento2] vai depender da ação e do complemento1.
-      Por exemplo, se um bot descartar um 7 de paus, será gerado o seguinte evento:
-        DISCARD 7♣
-      A ação é DISCARD e o complemento é 7♣. Portanto, o próximo bot deverá descartar ou
-      um 7 (de qualquer naipe) ou uma carta do naipe ♣. Guarde essa informação porque o
-      próximo bot poderá ser o seu.
-    
-      Se a carta descartada for, por exemplo, A♣ (Ás = muda de cor), haverá um segundo
-      complemento com o naipe a ser seguido pelos próximos jogadores. Por exemplo: no
-      evento "DISCARD A♣ ♥", o próximo bot deverá então descartar alguma carta do naipe ♥.
-
-      O valor da carta descartada pode também pedir uma ação do próximo jogador. Por
-      exemplo, se for descartado o V (valete = compre 2), a primeira ação do próximo
-      bot (pode ser o seu) deverá ser obrigatoriamente "BUY 2", sob pena do bot ser
-      eliminado da partida.
-      */
-
+    while (1) {
       scanf("%s %[^\n]", action, complement);
-      // obs: um segundo scanf pode ser realizado par ler o 2º complemento.
 
-      /*      
-      Há um evento especial que não é gerado pelos outros bots, mas pelo simulador.
-      Ele tem o formato: "TURN <id>".
-      O simulador envia esta mensagem quando for a vez do bot de identificador <id>.
-      Então, termine este laço interno quando for a vez do seu bot agir.
-      */
-    } while (strcmp(action, "TURN") || strcmp(complement, my_id));
+      if (strcmp(action, "TURN") == 0 && strcmp(complement, my_id) == 0) {
+        break;
+      }
+
+      qtBuy = 0;
+
+      if (strcmp(action, "DISCARD") == 0) {
+        if (complement[0] == 'V') {
+          qtBuy = 2;
+        } else if (complement[0] == 'C') {
+          qtBuy = 4;
+        }
+      }
+    }
+
     
     // agora é a vez do seu bot jogar
     
@@ -265,6 +251,12 @@ int main() {
 
     // Nesse exemplo de ação, o bot tenta descartar a carta 4♥.
     // Se ele não tiver na mão, a ação é simplesmente ignorada.
+    if (qtBuy != 0) {
+      buyCards(qtBuy);
+
+      continue;
+    }
+
     char card[] = "A♥ ♥";
     printf("DISCARD %s\n", card);
   }
