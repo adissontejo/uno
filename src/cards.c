@@ -51,7 +51,15 @@ Exemplo de saída (retorno da função):
 Remover primeiro caractére da string (atenção para não alterar a string original)
 */
 char* getCardSymbol(char* card) {
+  char* symbol;
+  int cardLength = (int)strlen(card);
+  symbol = calloc(cardLength-1, sizeof(char));
   
+  for (int i = 1; i < cardLength; i++) {
+      symbol[i-1] = card[i];
+  }
+  
+  return symbol;
 }
 
 void discardCard() {
