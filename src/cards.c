@@ -5,18 +5,31 @@
 int qtCards;
 char** cards;
 
-/*
-Vanessa
-
-Função: ler cartas iniciais do jogo
-
-Exemplo de entrada (scanf):
-HAND [ A♥ A♥ A♥ A♥ A♥ A♥ A♥ ]
-
-Tratar colcehetes, alocar memória em cards, incrementar qtCards.
-*/
 void readCards() {
+  char *temp;
+  char *card;
+  
+  qtCards = 0;
 
+  cards = calloc(7, sizeof(char*));
+
+  scanf("HAND %m[^\n]", &temp);
+
+  card = strtok(temp, " ");
+
+  while(card != NULL){
+    if(card[0] != '[' && card[0] != ']'){
+      int tam = (int)strlen(card);
+
+      cards[qtCards] = calloc(tam, sizeof(char));
+
+      strcpy(cards[qtCards], card);
+
+      qtCards++;
+    }
+    
+    card = strtok(NULL, " ");
+  }
 }
 
 void buyCards(int qt) {

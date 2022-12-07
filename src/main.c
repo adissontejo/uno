@@ -1,123 +1,33 @@
-/********************************************************************
-  Bot-exemplo do jogo Uno
-
-  Esta é uma versão do jogo de baralho Uno, com algumas diferenças:
-
-  A primeira é que este é um jogo baseado em turnos. Ou seja, um jogador só age quando
-  for sua vez. Logo, não haverá a opção de gritar "UNO" quando um jogador tiver apenas
-  uma carta. A regra de dizer UNO foi deixada de fora. Porém, para descontrair e liberar
-  todo o nervosismo da partida, seu bot pode falar o que quiser na sua vez (com seu
-  devido respeito!).
-
-  A segunda é que ele é jogado com as cartas do baralho tradicional. Ou seja, ao invés de
-  cores, teremos naipes (copas, espadas, ouro e paus) e, ao invés de cartas especiais (como
-  "Compre duas" ou "Passe a vez"), teremos cartas do baralho como Valete, Damas, Rei, Ás
-  e Coringa. Estas cartas substituem as cartas especiais do Uno, seguindo a correspondência:
-    "COMPRE 4"   : C = CORINGA
-    "COMPRE 2"   : V = VALETE
-    "VOLTA"      : D = DAMA
-    "PULA A VEZ" : R = REI
-    "MUDE A COR" : A = ÀS (muda o naipe)
-  
-  A partida será jogada com um único baralho. Assim, teremos quatro cartas de um valor. Por
-  exemplo, 7♥, 7♦, 7♣, 7♠, com exceção do coringa, que há apenas duas: um vermelho e um preto.
-  Porém, para seguir o padrão das cartas, os coringas terão também um naipe, mas serão apenas
-  dos naipes: ♥ (coringa vermelho) e ♣ (coringa preto).
-
-  O jogo é gerenciado por um "simulador" que irá controlar o jogo, dando a vez ao bot da
-  rodada. O bot deve ler os dados da entrada-padrão (via scanf) no formato especificado pelo
-  simulador, caso contrário ele se perderá e será eliminado da partida.
-  O bot também deve enviar suas ações para o simulador via saída-padrão (via printf) no formato
-  esperado pelo simulador, novamente sob pena de ser eliminado da partida.
-
-  As cartas do baralho sempre são no formato "ValorNaipe".
-  Nesse formato, Valor é um dos valores das cartas tradicionais, ou seja, A, 2, 3, 4, 5, 6,
-  7, 8, 9, 10, V (valete), D (dama), R (rei) e C (coringa), e Naipe é um dos seguintes naipes:
-  ♥, ♦, ♣, ♠.
-
-  Os naipes são caracteres no formato ascii estendidos, que possuem uma representação maior
-  que um byte (char). Isso significa que eles deve ser tratados como se fossem strings.
-
-  A lógica apresentada nesse template visa ilustrar a entrada e saída de dados de um bot.
-  Cabe a você aprimorar a lógica das ações do seu bot.
-
-  Bom jogo!!!
- ********************************************************************/
-
 #include <stdio.h>
 #include <string.h>
 
 #include "../include/players.h"
 #include "../include/cards.h"
 
-/** Constantes para as strings a serem lidas */
 #define MAX_LINE 100
 #define MAX_ACTION 10
 #define MAX_ID_SIZE 10
 
-/**
- * Para "debugar", é possível enviar uma mensagem para a saída de erro padrão (stderr).
- * Essa mensagem não será enviada para o simulador, apenas para o terminal.
- */
 void debug(char *message) {
   fprintf(stderr, "%s\n", message);
 }
 
-// APESAR DO CÓDIGO ESTAR EM UMA ÚNICA FUNÇÃO, É SEU OBJETIVO ESCREVER A LÓGICA
-// DE FORMA ORGANIZADA, USANDO DIFERENTES FUNÇÕES E ARQUIVOS.
-
 int main() {
-  // Obs: As variáveis deste template foram definidas apenas para o código compilar e rodar.
-  // Então, cabe a você usar as variáveis adequadas em função do que está lendo.
-  char temp[MAX_LINE];   // string para leitura temporária de dados
-  char my_id[MAX_ID_SIZE];  // identificador do seu bot
+  char temp[MAX_LINE];
+  char my_id[MAX_ID_SIZE];
 
-  setbuf(stdin, NULL);   // stdin, stdout e stderr não terão buffers
-  setbuf(stdout, NULL);  // assim, nada é "guardado temporariamente"
+  setbuf(stdin, NULL);
+  setbuf(stdout, NULL);
   setbuf(stderr, NULL);
 
-  // === INÍCIO DA PARTIDA ===
-
-  /*
-  Antes da partida começar, o simulador irá enviar alguns dados para seu bot, a saber:
-  - os bots que estão jogando, no formato: "PLAYERS <bot_1> <bot_2> ...";
-  - o identificador de seu bot, no formato: "YOU <id>";
-  - as cartas da sua mão, no formato: "HAND [ <c_1> <c_2> ... ]";
-  - a carta que se encontra sobre a mesa, no formato "TABLE <c>".
-
-  Um exemplo de dados iniciais é:
-    PLAYERS b1 b2 b3
-    YOU b1
-    HAND [ 4♥ 7♦ 2♣ V♠ A♥ 3♦ 2♣ 9♠ ]
-    TABLE 8♦
-
-  Seu bot deve, então, ler todos esses dados no início do programa. Veja que o conjunto
-  de cartas na mão do bot está entre []. Cabe a você tratar essa entrada.
-  */
-
-  // Lê uma linha até o '\n' com os identificadores dos jogadores.
-  // Será necessário separar os identificadores para saber quem são, quantos bots estão
-  // jogando e qual a ordem inicial de jogada deles.
   readPlayers();
-  
-  for (int i = 0; i < qtPlayers; i++) {
-    printf("SAY %s\n", players[i]);
-  }
 
-  // Lê o identificador do próprio bot. Isso é importante para testar quando é sua vez.
   scanf("YOU %s\n", my_id);
 
-  // Lê as cartas iniciais que o bot tem na mão. Ex: "[ 4♥ 7♦ 2♣ J♠ A♥ 3♦ 2♣ 9♠ ]".
-  // Os caracteres especiais (♥, ♦, ♣ e ♠) são caracteres ascii estendidos e precisam de
-  // mais de um byte para armazená-los. Assim, é interesante guardá-los como strings.
-  // Obs: lembre-se de tratar os colchetes.
-  scanf("HAND %[^\n]\n", temp);
-
+  readCards();
+  
   // Lê a carta aberta sobre a mesa. Ex: TABLE 8♣
   scanf("TABLE %s\n", temp);
-
-
-  // === PARTIDA ===
 
   char id[MAX_ID_SIZE];
   char action[MAX_ACTION];
@@ -135,8 +45,6 @@ int main() {
   número de cartas na mão, todos eles são considerados os ganhadores.
   */
   while(1) {
-    // A primeira coisa fazer é "esperar sua vez".
-    // É preciso, então, de um laço enquanto a vez do seu bot não chega.
     while (1) {
       scanf("%s %[^\n]", action, complement);
 
