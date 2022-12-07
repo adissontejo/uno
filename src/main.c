@@ -3,6 +3,7 @@
 
 #include "../include/players.h"
 #include "../include/cards.h"
+#include "../include/game.h"
 
 #define MAX_LINE 100
 #define MAX_ACTION 10

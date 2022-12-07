@@ -13,7 +13,7 @@ void readCards() {
 
   cards = calloc(7, sizeof(char*));
 
-  scanf("HAND %m[^\n]", &temp);
+  scanf("HAND %m[^\n]\n", &temp);
 
   card = strtok(temp, " ");
 
@@ -56,6 +56,22 @@ char* getCardSymbol(char* card) {
   return symbol;
 }
 
-void discardCard() {
+/*
+Rodrigo
+
+Função: remover carta específica da lista de cartas
+
+Exemplo de entrada (parâmetro da função):
+4♥
+
+Exemplo de saída (printf):
+DISCARD 4♥\n
+
+Mover todas as cartas à direita da descartada uma posição à esquerda
+Realocar tamanho da lista de cartas
+Diminuir valor de qtCards
+*/
+
+void discardCard(char* card) {
 
 }
