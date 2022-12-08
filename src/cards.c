@@ -96,5 +96,23 @@ Diminuir valor de qtCards
 */
 
 void discardCard(char* card) {
+    int discardedCardIndex;
+    
+    for (int i = 0; i < qtCards; i++) {
+        if (strcmp(cards[i], card) == 0) {
+            discardedCardIndex = i;
+        }
+    }
+    
+    for (int i = discardedCardIndex; i < qtCards-1; i++) {
+        cards[i] = cards[i+1];
+    }
+    
+    qtCards--;
+    
+    cards = realloc(cards, sizeof(char*) * qtCards);
 
+    char* discardComplement = getDiscardComplement(card);
+    
+    printf("DISCARD %s%s\n", card, discardComplement);
 }
