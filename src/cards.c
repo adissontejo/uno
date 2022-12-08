@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../include/game.h"
+
 int qtCards;
 char** cards;
 
@@ -54,6 +56,27 @@ char* getCardSymbol(char* card) {
   }
   
   return symbol;
+}
+
+char* getDiscardComplement(char* card) {
+  if (card[0] != 'C' && card[0] != 'A') {
+    return "";
+  }
+
+  char* bestSymbol = getBestSymbol();
+  
+  int complementLength = (int)strlen(bestSymbol) + 1;
+  
+  char* complement;
+  complement = calloc(complementLength, sizeof(char));
+  
+  complement[0] = ' ';
+  
+  for (int i = 1; i < complementLength; i++) {
+      complement[i] = bestSymbol[i-1];
+  }
+  
+  return complement;
 }
 
 /*
