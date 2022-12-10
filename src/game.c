@@ -6,7 +6,7 @@
 
 char* tableCard;
 char* tableSymbol;
-
+const char symbols[4][4] = { "♥", "♦", "♣", "♠" };
 /*
 Vanessa
 
@@ -23,31 +23,28 @@ char* getBestSymbol() {
     char* cardSymbol;
     int qtdSimbols[4];
     int max = 0;
-
-    card = strtok(cards, " ");
-
+    
     for(int i = 0; i < qtCards; i++){
-        int tam = (int)strlen(card);
+        int tam = (int)strlen(cards[i]);
 
         cardSymbol = calloc(tam, sizeof(char*));
 
-        cardSymbol = getCardSymbol(card);
+        cardSymbol = getCardSymbol(cards[i]);
 
         for(int j = 0; j < tam; j++){
-            if(card[0] != 'C' && card[0] != 'A'){
+            if(cards[0][j] != 'C' && cards[0][j] != 'A'){
                 
-                if(strcmp(cardSymbol, tableSymbol[0]) == 0){
+                if(strcmp(cardSymbol, symbols[0]) == 0){
                     qtdSimbols[0]++;
-                } else if(strcmp(cardSymbol, tableSymbol[1]) == 0){
+                } else if(strcmp(cardSymbol, symbols[1]) == 0){
                     qtdSimbols[1]++;
-                } else if(strcmp(cardSymbol, tableSymbol[2]) == 0){
+                } else if(strcmp(cardSymbol, symbols[2]) == 0){
                     qtdSimbols[2]++;
-                } else if(strcmp(cardSymbol, tableSymbol[3]) == 0){
+                } else if(strcmp(cardSymbol, symbols[3]) == 0){
                     qtdSimbols[3]++;
                 }
             }
         }
-        card = strtok(NULL, " ");
     }
 
     for(int j = 0; j < 4; j++){
@@ -55,9 +52,9 @@ char* getBestSymbol() {
             max = qtdSymbols[j];
 
             char* symbol;   
-            int t = (int)strlen(tableSymbol[j]);
+            int t = (int)strlen(symbols[j]);
             symbol = calloc(t, sizeof(char*));
-            symbol = tableSymbol[j];
+            symbol = symbols[j];
         }
     }
 
