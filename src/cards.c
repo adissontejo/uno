@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "../include/game.h"
+extern char* getBestSymbol();
+extern void playTurn();
 
 int qtCards;
 char** cards;
