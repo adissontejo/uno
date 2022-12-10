@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "../include/game.h"
+extern char* getBestSymbol();
+extern void playTurn();
 
 int qtCards;
 char** cards;
@@ -63,7 +65,7 @@ char* getDiscardComplement(char* card) {
     return "";
   }
 
-  char* bestSymbol = getBestSymbol();
+  char* bestSymbol = getBestSy mbol();
   
   int complementLength = (int)strlen(bestSymbol) + 1;
   
