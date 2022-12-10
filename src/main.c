@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "../include/players.h"
 #include "../include/cards.h"
@@ -29,6 +30,10 @@ int main() {
   
   // Lê a carta aberta sobre a mesa. Ex: TABLE 8♣
   scanf("TABLE %s\n", temp);
+
+  tableCard = calloc(strlen(temp), sizeof(char));
+  tableSymbol = getCardSymbol(temp);
+  strcpy(tableCard, temp);
 
   char id[MAX_ID_SIZE];
   char action[MAX_ACTION];
@@ -60,6 +65,26 @@ int main() {
           qtBuy = 2;
         } else if (complement[0] == 'C') {
           qtBuy = 4;
+        }
+
+        if (complement[0] == 'A' || complement[0] == 'C') {
+          char* split = strtok(complement, " ");
+
+          tableCard = calloc(strlen(split), sizeof(char));
+
+          strcpy(tableCard, split);
+
+          split = strtok(NULL, " ");
+
+          tableSymbol = calloc(strlen(split), sizeof(char));
+
+          strcpy(tableSymbol, split);
+        } else {
+          tableCard = calloc(strlen(complement), sizeof(char));
+
+          strcpy(tableCard, complement);
+
+          tableSymbol = getCardSymbol(tableCard);
         }
       }
     }
@@ -166,8 +191,7 @@ int main() {
       continue;
     }
 
-    char card[] = "A♥ ♥";
-    printf("DISCARD %s\n", card);
+    playTurn();
   }
 
   return 0;
