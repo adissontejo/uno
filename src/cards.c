@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/game.h"
-extern char* getBestSymbol();
-extern void playTurn();
-
 int qtCards;
 char** cards;
 
@@ -25,7 +21,7 @@ void readCards() {
     if(card[0] != '[' && card[0] != ']'){
       int tam = (int)strlen(card);
 
-      cards[qtCards] = calloc(tam, sizeof(char));
+      cards[qtCards] = calloc(tam + 1, sizeof(char));
 
       strcpy(cards[qtCards], card);
 
@@ -51,70 +47,39 @@ void buyCards(int qt) {
 char* getCardSymbol(char* card) {
   char* symbol;
   int cardLength = (int)strlen(card);
-  symbol = calloc(cardLength-1, sizeof(char));
+  symbol = calloc(cardLength, sizeof(char));
   
   for (int i = 1; i < cardLength; i++) {
     symbol[i-1] = card[i];
   }
+
+  symbol[cardLength - 1] = '\0';
   
   return symbol;
 }
 
-char* getDiscardComplement(char* card) {
-  if (card[0] != 'C' && card[0] != 'A') {
-    return "";
-  }
-
-  char* bestSymbol = getBestSymbol();
-  
-  int complementLength = (int)strlen(bestSymbol) + 1;
-  
-  char* complement;
-  complement = calloc(complementLength, sizeof(char));
-  
-  complement[0] = ' ';
-  
-  for (int i = 1; i < complementLength; i++) {
-      complement[i] = bestSymbol[i-1];
-  }
-  
-  return complement;
-}
-
-/*
-Rodrigo
-
-Função: remover carta específica da lista de cartas
-
-Exemplo de entrada (parâmetro da função):
-4♥
-
-Exemplo de saída (printf):
-DISCARD 4♥\n
-
-Mover todas as cartas à direita da descartada uma posição à esquerda
-Realocar tamanho da lista de cartas
-Diminuir valor de qtCards
-*/
-
-void discardCard(char* card) {
-    int discardedCardIndex;
+void discardCard(char* card, char* symbol) {
+  int discardedCardIndex;
     
-    for (int i = 0; i < qtCards; i++) {
-        if (strcmp(cards[i], card) == 0) {
-            discardedCardIndex = i;
-        }
+  for (int i = 0; i < qtCards; i++) {
+    if (strcmp(cards[i], card) == 0) {
+      discardedCardIndex = i;
     }
+  }
     
-    for (int i = discardedCardIndex; i < qtCards-1; i++) {
-        cards[i] = cards[i+1];
-    }
+  for (int i = discardedCardIndex; i < qtCards-1; i++) {
+    strcpy(cards[i], cards[i + 1]);
+  }
     
-    qtCards--;
-    
-    cards = realloc(cards, sizeof(char*) * qtCards);
+  qtCards--;
 
-    char* discardComplement = getDiscardComplement(card);
+  free(cards[qtCards]);
     
-    printf("DISCARD %s%s\n", card, discardComplement);
+  cards = realloc(cards, sizeof(char*) * qtCards);
+    
+  if (card[0] == 'A' || card[0] == 'C') {
+    printf("DISCARD %s %s\n", card, symbol);
+  } else {
+    printf("DISCARD %s\n", card);
+  }
 }

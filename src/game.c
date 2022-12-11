@@ -6,68 +6,49 @@
 
 char* tableCard;
 char* tableSymbol;
-const char symbols[4][4] = { "♥", "♦", "♣", "♠" };
-/*
-Vanessa
-
-Função: retornar o símbolo mais presente no baralho do bot (cards)
-
-Exemplo de retorno:
-♥
-
-Ignorar cartas A e C e usar função getCardSymbol para auxiliar
-*/
 
 char* getBestSymbol() {
-    char* card;
-    char* cardSymbol;
-    int qtdSymbols[4];
-    int max = 0;
+  const char symbols[4][4] = { "♥", "♦", "♣", "♠" };
+
+  char* card;
+  char* cardSymbol;
+  int qtdSymbols[4];
+  int max = 0;
+
+  memset(qtdSymbols, 0, sizeof(qtdSymbols));
     
-    for(int i = 0; i < qtCards; i++){
-        int tam = (int)strlen(cards[i]);
+  for(int i = 0; i < qtCards; i++){
+    int tam = (int)strlen(cards[i]);
 
-        cardSymbol = calloc(tam, sizeof(char*));
+    cardSymbol = getCardSymbol(cards[i]);
 
-        cardSymbol = getCardSymbol(cards[i]);
-
-        for(int j = 0; j < tam; j++){
-            if(cards[0][j] != 'C' && cards[0][j] != 'A'){
-                
-                if(strcmp(cardSymbol, symbols[0]) == 0){
-                    qtdSymbols[0]++;
-                } else if(strcmp(cardSymbol, symbols[1]) == 0){
-                    qtdSymbols[1]++;
-                } else if(strcmp(cardSymbol, symbols[2]) == 0){
-                    qtdSymbols[2]++;
-                } else if(strcmp(cardSymbol, symbols[3]) == 0){
-                    qtdSymbols[3]++;
-                }
-            }
-        }
+    if(cards[i][0] != 'C' && cards[i][0] != 'A'){            
+      if(strcmp(cardSymbol, symbols[0]) == 0){
+        qtdSymbols[0]++;
+      } else if(strcmp(cardSymbol, symbols[1]) == 0){
+        qtdSymbols[1]++;
+      } else if(strcmp(cardSymbol, symbols[2]) == 0){
+        qtdSymbols[2]++;
+      } else if(strcmp(cardSymbol, symbols[3]) == 0){
+        qtdSymbols[3]++;
+      }
     }
+  }
 
-    char* symbol; 
-    for(int j = 0; j < 4; j++){
-        if(qtdSymbols[j] >= max){
-            max = qtdSymbols[j];
-  
-            int t = (int)strlen(symbols[j]);
-            symbol = calloc(t, sizeof(char*));
-            symbol = symbols[j];
-        }
+  char* symbol;
+
+  for(int j = 0; j < 4; j++){
+    if(qtdSymbols[j] >= max){
+      max = qtdSymbols[j];
+
+      int t = (int)strlen(symbols[j]);
+      symbol = calloc(t + 1, sizeof(char));
+      strcpy(symbol, symbols[j]);
     }
+  }
 
-    return symbol;
+  return symbol;
 }
-
-/*
-Ádisson
-
-Função: discartar carta ou então comprar uma carta
-
-Implementar lógica de prioridade de cartas e comprar uma carta caso não possua nenhuma carta disponível para jogar
-*/
 
 void playTurn() {
   int priority = 0, cardIndex = -1;
@@ -102,13 +83,15 @@ void playTurn() {
     tableCard = calloc(strlen(cards[cardIndex]), sizeof(char));
 
     strcpy(tableCard, cards[cardIndex]);
-
-    discardCard(tableCard);
  
     if (tableCard[0] == 'A' || tableCard[0] == 'C') {
       tableSymbol = getBestSymbol();
+
+      discardCard(tableCard, tableSymbol);
     } else {
       tableSymbol = getCardSymbol(tableCard);
+
+      discardCard(tableCard);
     }
   }
 }

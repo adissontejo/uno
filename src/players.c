@@ -25,7 +25,7 @@ void readPlayers() {
       players = realloc(players, (qtPlayers + 1)*sizeof(char*));
     }
 
-    players[qtPlayers] = malloc(sizeof(char)*strlen(player));
+    players[qtPlayers] = calloc(strlen(player) + 1, sizeof(char));
 
     strcpy(players[qtPlayers], player);
 
