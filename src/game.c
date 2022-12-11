@@ -21,7 +21,7 @@ Ignorar cartas A e C e usar função getCardSymbol para auxiliar
 char* getBestSymbol() {
     char* card;
     char* cardSymbol;
-    int qtdSimbols[4];
+    int qtdSymbols[4];
     int max = 0;
     
     for(int i = 0; i < qtCards; i++){
@@ -35,23 +35,23 @@ char* getBestSymbol() {
             if(cards[0][j] != 'C' && cards[0][j] != 'A'){
                 
                 if(strcmp(cardSymbol, symbols[0]) == 0){
-                    qtdSimbols[0]++;
+                    qtdSymbols[0]++;
                 } else if(strcmp(cardSymbol, symbols[1]) == 0){
-                    qtdSimbols[1]++;
+                    qtdSymbols[1]++;
                 } else if(strcmp(cardSymbol, symbols[2]) == 0){
-                    qtdSimbols[2]++;
+                    qtdSymbols[2]++;
                 } else if(strcmp(cardSymbol, symbols[3]) == 0){
-                    qtdSimbols[3]++;
+                    qtdSymbols[3]++;
                 }
             }
         }
     }
 
+    char* symbol; 
     for(int j = 0; j < 4; j++){
         if(qtdSymbols[j] >= max){
             max = qtdSymbols[j];
-
-            char* symbol;   
+  
             int t = (int)strlen(symbols[j]);
             symbol = calloc(t, sizeof(char*));
             symbol = symbols[j];
