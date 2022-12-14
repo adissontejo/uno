@@ -4,9 +4,15 @@
 
 #include "../include/cards.h"
 
+//Variáveis globais
+
 char* tableCard;
 char* tableSymbol;
 
+/*Função para pegar o símbolo da carta que mais aparece no array
+  Input: void
+  Output: char* symbol
+*/
 char* getBestSymbol() {
   const char symbols[4][4] = { "♥", "♦", "♣", "♠" };
 
@@ -18,11 +24,16 @@ char* getBestSymbol() {
   memset(qtdSymbols, 0, sizeof(qtdSymbols));
     
   for(int i = 0; i < qtCards; i++){
-    int tam = (int)strlen(cards[i]);
 
+    // Guarda o símbolo da carta obtido com a função getCardSymbol
     cardSymbol = getCardSymbol(cards[i]);
 
-    if(cards[i][0] != 'C' && cards[i][0] != 'A'){            
+    // Verifica se a carta na posição [i][0] é diferente de 'C' e 'A'
+    if(cards[i][0] != 'C' && cards[i][0] != 'A'){      
+
+      /* Realiza a comparação do símbolo obtido da carta com os 4 naipes do barralho 
+        e incrementa a quantidade quando a condição for verdadeira
+      */      
       if(strcmp(cardSymbol, symbols[0]) == 0){
         qtdSymbols[0]++;
       } else if(strcmp(cardSymbol, symbols[1]) == 0){
@@ -37,6 +48,9 @@ char* getBestSymbol() {
 
   char* symbol;
 
+  /* Percorre o vetor da quantidade de símbolos verificando quem aparaceu mais
+    e guardar o valor do símbolo
+  */
   for(int j = 0; j < 4; j++){
     if(qtdSymbols[j] >= max){
       max = qtdSymbols[j];
@@ -47,6 +61,7 @@ char* getBestSymbol() {
     }
   }
 
+  // Retorna o símbolo que apareceu com mais frequência
   return symbol;
 }
 

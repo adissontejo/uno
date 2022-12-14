@@ -18,12 +18,16 @@ int main() {
   setbuf(stdout, NULL);
   setbuf(stderr, NULL);
 
+  // Chamada a função que realiza a leitura dos ids dos bots que estão jogando
   readPlayers();
 
+  // Ler o id do nosso bot
   scanf("YOU %s\n", my_id);
 
+  // Chamada a função que realiza a leitura das cartas do nosso bot 
   readCards();
 
+  // Realiza a leitura da carta sobre a mesa
   scanf("TABLE %s\n", temp);
 
   tableCard = calloc(strlen(temp) + 1, sizeof(char));
