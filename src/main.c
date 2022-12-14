@@ -30,7 +30,9 @@ int main() {
   // Realiza a leitura da carta sobre a mesa
   scanf("TABLE %s\n", temp);
 
+  // Aloca o tamanho da carta sobre a mesa
   tableCard = calloc(strlen(temp) + 1, sizeof(char));
+  // Guarda o símbolo da carta recebida
   tableSymbol = getCardSymbol(temp);
   strcpy(tableCard, temp);
 
@@ -40,8 +42,10 @@ int main() {
 
   int qtBuy = 0;
 
+  // Executa enquanto as condições de parada do jogo não for atingida
   while(1) {
     while (1) {
+      // Ler a ação e complemento da vez
       scanf("%s %[^\n]", action, complement);
 
       if (strcmp(action, "TURN") == 0 && strcmp(complement, my_id) == 0) {
@@ -50,13 +54,16 @@ int main() {
 
       qtBuy = 0;
 
+      // Verifica se a ação da vez é DISCARD
       if (strcmp(action, "DISCARD") == 0) {
+        //  Incrementa a quantidade de cartas a ser comprada caso complement[0] for igual a V ou C
         if (complement[0] == 'V') {
           qtBuy = 2;
         } else if (complement[0] == 'C') {
           qtBuy = 4;
         }
 
+        // Verifica se complement[0] é igual a A ou C
         if (complement[0] == 'A' || complement[0] == 'C') {
           char* split = strtok(complement, " ");
 
@@ -79,6 +86,7 @@ int main() {
       }
     }
     
+    // Se a quantidade de cartas compradas for diferente de zero, a função comprar cartas é chamada
     if (qtBuy != 0) {
       buyCards(qtBuy);
 

@@ -9,7 +9,7 @@
 char* tableCard;
 char* tableSymbol;
 
-/*Função para pegar o símbolo da carta que mais aparece no array
+/*Função para pegar o símbolo da carta que mais aparece na mão de cartas
   Input: void
   Output: char* symbol
 */
@@ -65,6 +65,10 @@ char* getBestSymbol() {
   return symbol;
 }
 
+/* Função que verifica a prioridade da carta e executa ações baseadas nisso
+   Input: void
+   Output: void
+*/
 void playTurn() {
   int priority = 0, cardIndex = -1;
 
