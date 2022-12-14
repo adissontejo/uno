@@ -5,7 +5,10 @@
 #include "../include/players.h"
 
 //Variáveis globais
+
+//Quantidade de jogadores na partida
 int qtPlayers;
+//Lista de strings dos ids dos bots
 char** players;
 
 /* Função que realiza a leitura dos ids dos bots que estão jogando

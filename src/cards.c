@@ -66,16 +66,16 @@ void buyCards(int qt) {
   qtCards += qt;
 }
 
-// Função para obter o símbolo de uma carta
+// Função para obter o naipe de uma carta
 // Input: char* carta
 // Output: char* símbolo
 char* getCardSymbol(char* card) {
-  // Aloca espaço para o símbolo
+  // Aloca espaço para o naipe
   char* symbol;
   int cardLength = (int)strlen(card);
   symbol = calloc(cardLength, sizeof(char));
   
-  // Copia o símbolo da carta para a variável symbol
+  // Copia o naipe da carta para a variável symbol
   // Ou seja, o conteúdo da carta a partir do índice 1 (que é a letra)
   for (int i = 1; i < cardLength; i++) {
     symbol[i-1] = card[i];
@@ -120,7 +120,7 @@ void discardCard(char* card, char* symbol) {
   
   // Imprime o comando para descartar a carta
   // se a carta for um Coringa ou um Ás, imprimirá
-  // o símbolo escolhido a ser mudado
+  // o naipe escolhido a ser mudado
   if (card[0] == 'A' || card[0] == 'C') {
     printf("DISCARD %s %s\n", card, symbol);
   } else {
